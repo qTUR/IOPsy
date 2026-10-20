@@ -1,0 +1,11 @@
+# إعداد LiveKit (يُقرأ عند تشغيل الخادم). المفاتيح تُولَّد تلقائيًا في server/lk-keys.json ولا توضع هنا.
+port: 7880
+rtc:
+  tcp_port: 7881      # احتياطي عند حجب UDP
+  udp_port: 7882      # منفذ UDP واحد لكل الوسائط (أسهل في فتح الراوتر)
+  use_external_ip: false   # يتحوّل إلى true تلقائيًا عند LK_EXTERNAL_IP=1 (استضافة من البيت)
+logging:
+  level: info
+room:
+  empty_timeout: 300
+  max_participants: 25

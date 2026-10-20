@@ -1,0 +1,25 @@
+// لقطات داخل الخيمة: node tools/tent.mjs
+import { chromium } from 'playwright-core';
+const out = 'C:/Users/it2rk/IOPsy/work/';
+const browser = await chromium.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: true, args: ['--use-angle=d3d11', '--enable-gpu', '--ignore-gpu-blocklist'] });
+const page = await browser.newPage({ viewport: { width: 1280, height: 720 } });
+page.on('pageerror', (e) => console.log('PAGEERROR', e.message));
+page.on('console', (m) => { if (m.type() === 'error') console.log('ERR', m.text()); });
+await page.goto('http://localhost:5180/', { waitUntil: 'load' });
+await page.waitForFunction(() => document.querySelector('.loader.gone'), null, { timeout: 90000 });
+await page.fill('input', 'أبو سعود'); await page.click('.go'); await page.waitForTimeout(1500);
+await page.evaluate(() => window.__tp(0, 16)); await page.waitForTimeout(500);
+await page.evaluate(() => window.__tp(0, 0)); await page.waitForTimeout(2200);
+await page.screenshot({ path: out + 'tent_outside.png' });
+await page.evaluate(() => window.__tp(0.5, -9.5)); await page.waitForTimeout(500);
+await page.keyboard.down('w'); await page.waitForTimeout(1200); await page.keyboard.up('w'); await page.waitForTimeout(1800);
+await page.screenshot({ path: out + 'tent_inside1.png' });
+await page.mouse.move(640, 360); await page.mouse.down(); await page.mouse.move(900, 330, { steps: 10 }); await page.mouse.up(); await page.waitForTimeout(1500);
+await page.screenshot({ path: out + 'tent_inside2.png' });
+await page.evaluate(() => window.__tp(4, -12)); await page.waitForTimeout(500);
+await page.mouse.move(640, 360); await page.mouse.down(); await page.mouse.move(300, 380, { steps: 12 }); await page.mouse.up(); await page.waitForTimeout(2000);
+await page.screenshot({ path: out + 'tent_inside3.png' });
+await page.evaluate(() => window.__tp(-1.5, -13)); await page.waitForTimeout(400);
+await page.mouse.move(640, 360); await page.mouse.down(); await page.mouse.move(980, 340, { steps: 12 }); await page.mouse.up(); await page.waitForTimeout(2000);
+await page.screenshot({ path: out + 'tent_screen.png' });
+await browser.close();

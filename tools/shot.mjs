@@ -1,0 +1,24 @@
+// لقطات شاشة للتحقق: node tools/shot.mjs [url] — يستخدم Chrome المثبّت مع GPU
+import { chromium } from 'playwright-core';
+const url = process.argv[2] || 'http://localhost:5180';
+const out = 'C:/Users/it2rk/IOPsy/work/';
+const browser = await chromium.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: true, args: ['--use-angle=d3d11', '--enable-gpu', '--ignore-gpu-blocklist', '--enable-unsafe-swiftshader'] });
+const page = await browser.newPage({ viewport: { width: 1280, height: 720 } });
+const logs = [];
+page.on('console', (m) => logs.push(`${m.type()}: ${m.text()}`));
+page.on('pageerror', (e) => logs.push('PAGEERROR: ' + e.message));
+await page.goto(url, { waitUntil: 'load' });
+await page.waitForFunction(() => document.querySelector('.loader.gone'), null, { timeout: 90000 }).catch(() => logs.push('loader timeout'));
+await page.waitForTimeout(2500);
+await page.screenshot({ path: out + 'shot_join.png' });
+await page.fill('input', 'أبو سعود');
+await page.click('.seg button:nth-child(2)'); await page.waitForTimeout(800); await page.screenshot({ path: out + 'shot_woman.png' }); await page.click('.seg button:nth-child(1)'); await page.waitForTimeout(500); await page.screenshot({ path: out + 'shot_man.png' }); await page.click('.go');
+await page.waitForTimeout(2500);
+await page.screenshot({ path: out + 'shot_play1.png' });
+await page.keyboard.down('w'); await page.waitForTimeout(1800); await page.keyboard.up('w');
+await page.mouse.move(640, 360); await page.mouse.down(); await page.mouse.move(420, 340, { steps: 8 }); await page.mouse.up();
+await page.waitForTimeout(800);
+await page.screenshot({ path: out + 'shot_play2.png' });
+console.log(logs.slice(0, 25).join('\n'));
+console.log(await page.evaluate(() => { const c = document.createElement('canvas'); const g = c.getContext('webgl2'); return g ? g.getParameter(g.RENDERER) : 'no webgl2'; }));
+await browser.close();

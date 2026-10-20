@@ -1,0 +1,10 @@
+node_modules
+dist
+work
+server/admin.json
+*.log
+bin/
+server/livekit.runtime.yaml
+server/livekit.log
+server/lk-keys.json
+server/uploads/
