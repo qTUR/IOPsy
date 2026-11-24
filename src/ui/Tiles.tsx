@@ -39,7 +39,7 @@ export function ScreenWindow({ id, onFull }: { id: string; onFull?: () => void }
   const tr = trackRefs.get(id)?.screen; const ref = useAttach(tr);
   const [lv, setLv] = useState(() => (matchMedia('(pointer:coarse)').matches ? 1 : 0));
   return (
-    <div className="screenwin" style={lv ? { width: `min(${SW_W[lv]}px, calc(100vw - 24px))` } : undefined}>
+    <div className={'screenwin' + (lv ? ' enl' : '')} style={lv ? { width: `min(${SW_W[lv]}px, calc(100vw - 24px))` } : undefined}>
       <div className="sw-h"><b>🖥 {t('screen_of', { n: name })}</b>
         <span>
           <button onClick={() => setLv(Math.max(0, lv - 1))} disabled={lv === 0} title="−">−</button>
