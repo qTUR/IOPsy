@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { Track } from 'livekit-client';
 import { useGame } from '../store';
 import { trackRefs } from '../media';
@@ -31,13 +31,23 @@ function Tile({ id, big, mirror }: { id: string; big?: boolean; mirror?: boolean
   );
 }
 
+const SW_W = [0, 420, 700, 1000]; // 0 = الحجم الصغير الافتراضي من CSS
+
 export function ScreenWindow({ id, onFull }: { id: string; onFull?: () => void }) {
   const t = useT(); useGame((s) => s.media.v);
   const name = useGame((s) => s.players[id]?.name ?? '');
   const tr = trackRefs.get(id)?.screen; const ref = useAttach(tr);
+  const [lv, setLv] = useState(0);
   return (
-    <div className="screenwin">
-      <div className="sw-h"><b>🖥 {t('screen_of', { n: name })}</b>{onFull && <button onClick={onFull}>{t('proj_open')}</button>}</div>
+    <div className="screenwin" style={lv ? { width: `min(${SW_W[lv]}px, calc(100vw - 24px))` } : undefined}>
+      <div className="sw-h"><b>🖥 {t('screen_of', { n: name })}</b>
+        <span>
+          <button onClick={() => setLv(Math.max(0, lv - 1))} disabled={lv === 0} title="−">−</button>
+          <button onClick={() => setLv(Math.min(SW_W.length - 1, lv + 1))} disabled={lv === SW_W.length - 1} title="+">+</button>
+          <button onClick={() => void ref.current?.requestFullscreen?.()} title="⛶">⛶</button>
+          {onFull && <button onClick={onFull}>{t('proj_open')}</button>}
+        </span>
+      </div>
       <video ref={ref} autoPlay playsInline muted />
     </div>
   );

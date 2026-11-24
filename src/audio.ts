@@ -36,7 +36,7 @@ export function startAudio() {
   };
   pop();
   // موسيقى
-  music = new Audio('/audio/Soundtrack.mp3'); music.loop = true; music.volume = 0.22; music.muted = muted;
+  music = new Audio('/audio/Soundtrack.mp3'); music.loop = true; music.volume = 0.05; music.muted = muted;
   void music.play().catch(() => {});
 }
 

@@ -86,6 +86,7 @@
 .more { padding: 3px 10px; border-radius: 99px; background: rgba(24, 12, 36, .8); font-weight: 700; }
 .screenwin { width: 224px; border-radius: 14px; overflow: hidden; background: #000; border: 2px solid rgba(122, 208, 200, .6); }
 .screenwin .sw-h { display: flex; justify-content: space-between; align-items: center; gap: 6px; padding: 5px 8px; font-size: 11px; background: rgba(24, 12, 36, .92); }
+.screenwin .sw-h span { display: flex; gap: 4px; } .screenwin .sw-h button:disabled { opacity: .35; cursor: default; }
 .screenwin .sw-h button { padding: 2px 8px; border-radius: 8px; border: 0; background: var(--gold); color: #2a1a10; font: 700 11px var(--font); cursor: pointer; }
 .screenwin video { width: 100%; display: block; aspect-ratio: 16 / 9; object-fit: contain; background: #000; }
 
