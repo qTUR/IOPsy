@@ -37,7 +37,7 @@ export function ScreenWindow({ id, onFull }: { id: string; onFull?: () => void }
   const t = useT(); useGame((s) => s.media.v);
   const name = useGame((s) => s.players[id]?.name ?? '');
   const tr = trackRefs.get(id)?.screen; const ref = useAttach(tr);
-  const [lv, setLv] = useState(0);
+  const [lv, setLv] = useState(() => (matchMedia('(pointer:coarse)').matches ? 1 : 0));
   return (
     <div className="screenwin" style={lv ? { width: `min(${SW_W[lv]}px, calc(100vw - 24px))` } : undefined}>
       <div className="sw-h"><b>🖥 {t('screen_of', { n: name })}</b>
