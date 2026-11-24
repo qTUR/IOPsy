@@ -61,3 +61,6 @@ canvas { touch-action: none; }
 
 /* النافذة المكبّرة تثبّت على الشاشة نفسها (داخل عمود الصور كانت تخرج خارج الحافة في RTL) */
 .screenwin.enl { position: fixed; top: calc(56px + env(safe-area-inset-top)); right: 8px; left: auto; z-index: 6; box-shadow: 0 10px 40px #000a; }
+.screenwin.full { inset: 0; top: 0; right: 0; left: 0; width: 100vw; height: 100dvh; max-width: none; border-radius: 0; border: 0; z-index: 2147483001; display: flex; flex-direction: column; }
+.screenwin.full .sw-h { padding-top: calc(8px + env(safe-area-inset-top)); }
+.screenwin.full video { flex: 1; min-height: 0; width: 100%; height: auto; aspect-ratio: auto; object-fit: contain; }

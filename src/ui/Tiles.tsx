@@ -31,20 +31,20 @@ function Tile({ id, big, mirror }: { id: string; big?: boolean; mirror?: boolean
   );
 }
 
-const SW_W = [0, 420, 700, 1000]; // 0 = الحجم الصغير الافتراضي من CSS
+const SW_MID = 420; // مستويات النافذة: 0 صغيرة، 1 متوسطة، 2 ملء الشاشة
 
 export function ScreenWindow({ id, onFull }: { id: string; onFull?: () => void }) {
   const t = useT(); useGame((s) => s.media.v);
   const name = useGame((s) => s.players[id]?.name ?? '');
   const tr = trackRefs.get(id)?.screen; const ref = useAttach(tr);
-  const [lv, setLv] = useState(() => (matchMedia('(pointer:coarse)').matches ? 1 : 0));
+  const [lv, setLv] = useState(0);
   return (
-    <div className={'screenwin' + (lv ? ' enl' : '')} style={lv ? { width: `min(${SW_W[lv]}px, calc(100vw - 24px))` } : undefined}>
+    <div className={'screenwin' + (lv ? ' enl' : '') + (lv === 2 ? ' full' : '')} style={lv === 1 ? { width: `min(${SW_MID}px, calc(100vw - 16px))` } : undefined}>
       <div className="sw-h"><b>🖥 {t('screen_of', { n: name })}</b>
         <span>
           <button onClick={() => setLv(Math.max(0, lv - 1))} disabled={lv === 0} title="−">−</button>
-          <button onClick={() => setLv(Math.min(SW_W.length - 1, lv + 1))} disabled={lv === SW_W.length - 1} title="+">+</button>
-          <button onClick={() => void ref.current?.requestFullscreen?.()} title="⛶">⛶</button>
+          <button onClick={() => setLv(Math.min(2, lv + 1))} disabled={lv === 2} title="+">+</button>
+          <button onClick={() => setLv(lv === 2 ? 1 : 2)} title="⛶">{lv === 2 ? '✕' : '⛶'}</button>
           {onFull && <button onClick={onFull}>{t('proj_open')}</button>}
         </span>
       </div>
